@@ -57,7 +57,30 @@ class HorseRaces:
             inner keys are (str) races, inner values are (int) race times
             EXAMPLE: {'Special Week': {'Tenno Sho Fall': 16.5, 'Tenno Sho Spring': 16.3, 'Teio Sho': 17.0}}
         '''
-        pass
+        # header row: ["Horse", race1, race2, ...]
+        headers = table[0]
+
+        race_dict = {}
+        # each remaining row: [horse, time1, time2, ...]
+        for row in table[1:]:
+            if len(row) == 0 or (len(row) == 1 and row[0] == ""):
+                continue
+
+            horse = row[0]
+            inner = { }
+
+            # map each race name to float time
+            for i in range(1, len(headers)):
+                race_name = headers[i]
+                # guard in case row shorter than headers
+                if i < len(row) and row[i] != "":
+                    inner[race_name] = float(row[i])
+
+            race_dict[horse] = inner
+
+        return race_dict
+
+        
 
 ###############################################################################
 ##### TASK 2
